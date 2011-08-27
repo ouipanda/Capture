@@ -1,0 +1,96 @@
+﻿<Window x:Class="Capture.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Capture" Height="400" Width="650" xmlns:my="clr-namespace:Capture" Icon="/Capture;component/icon_32.png">
+    <Window.Resources>
+        <ControlTemplate x:Key="captureItemTemplate" TargetType="{x:Type ListBoxItem}">
+            <Grid>
+                <Rectangle 
+                    HorizontalAlignment="Stretch" 
+                    VerticalAlignment="Stretch" 
+                    Opacity="0"
+                    x:Name="itemContentBackground">
+                    <Rectangle.RenderTransform>
+                        <ScaleTransform ScaleX="1" />
+                    </Rectangle.RenderTransform>
+                    <Rectangle.Fill>
+                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1" >
+                            <GradientStop Color="#A1B0CF" Offset="0"/>
+                            <GradientStop Color="#7184AC" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
+                
+                <my:CaptureListItem HorizontalAlignment="Left" Margin="0,0,0,0" x:Name="captureListItem1" VerticalAlignment="Top"
+                                    MouseLeftButtonDown="listView1_MouseLeftButtonDown" />
+            </Grid>
+
+            <ControlTemplate.Triggers>
+                <EventTrigger RoutedEvent="Selector.Selected">
+                    <EventTrigger.Actions>
+                        <BeginStoryboard>
+                            <Storyboard Storyboard.TargetName="itemContentBackground">
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.2" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger.Actions>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="Selector.Unselected">
+                    <EventTrigger.Actions>
+                        <BeginStoryboard>
+                            <Storyboard Storyboard.TargetName="itemContentBackground">
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.2" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger.Actions>
+                </EventTrigger>
+                <Trigger Property="IsSelected" Value="true">
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+    </Window.Resources>
+
+    <DockPanel>
+        <Menu DockPanel.Dock="Top" Height="23" HorizontalAlignment="Stretch" Name="menu1" VerticalAlignment="Top">
+            <MenuItem Header="設定" x:Name="settingMenu" Click="settingMenu_Click"></MenuItem>
+        </Menu>
+        
+        <DockPanel DockPanel.Dock="Bottom">
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Left" Margin="10,10,10,10">
+                <Button Content="記録開始" Height="23" HorizontalAlignment="Left" Name="btnStart" VerticalAlignment="Top" Width="75" Click="btnStart_Click" Margin="0,0,5,0" />
+                <Button Content="記録停止" Height="23" HorizontalAlignment="Left" Name="btnStop" VerticalAlignment="Top" Width="75" Click="btnStop_Click" Margin="0,0,5,0" />
+                <Button Content="保存フォルダ" Height="23" HorizontalAlignment="Left" Name="btnReveal" VerticalAlignment="Top" Width="91" Click="btnReveal_Click" Margin="0,0,5,0" />
+                <Button Content="Excel出力" Height="23" HorizontalAlignment="Left" Name="btnExport" VerticalAlignment="Top" Width="75" Click="btnExport_Click" Margin="0,0,5,0" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" DockPanel.Dock="Right" Margin="10,10,10,10">
+                <Button Content="終了" Height="23" HorizontalAlignment="Left" Name="btnExit" VerticalAlignment="Top" Width="75" Click="btnExit_Click" Margin="0,0,5,0" />
+                <Button Content="閉じる" Height="23" HorizontalAlignment="Right" Name="btnClose" VerticalAlignment="Top" Width="75" Click="btnClose_Click" />
+            </StackPanel>
+        </DockPanel>
+       
+        <ListBox Name="listView1" 
+                SelectionChanged="listView1_SelectionChanged"
+                ItemsSource="{Binding}"
+                DockPanel.Dock="Left"
+                Width="330"
+                Height="280"
+                Margin="2,5,0,5">
+            <ListBox.Resources>
+                <Style TargetType="{x:Type ListBoxItem}">
+                    <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                    <Setter Property="Template" Value="{StaticResource captureItemTemplate}">
+                    </Setter>
+                </Style>
+            </ListBox.Resources>
+        </ListBox>
+
+        <Grid DockPanel.Dock="Right" Name="grid1"
+              Width="300"
+                Height="280"
+                Margin="5,5,2,5"
+              Background="#45000000">
+            <Image Margin="6,33,6,33" Name="image1"  />
+        </Grid>
+
+    </DockPanel>
+</Window>

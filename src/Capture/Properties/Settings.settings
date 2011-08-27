@@ -1,0 +1,27 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Capture.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="size_top" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">-150</Value>
+    </Setting>
+    <Setting Name="size_left" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">-200</Value>
+    </Setting>
+    <Setting Name="size_bottom" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">150</Value>
+    </Setting>
+    <Setting Name="size_right" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">200</Value>
+    </Setting>
+    <Setting Name="save_dir" Type="System.String" Scope="User">
+      <Value Profile="(Default)">data</Value>
+    </Setting>
+    <Setting Name="IsUpgrated" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="excel_template" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Template.xls</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

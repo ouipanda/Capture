@@ -1,0 +1,21 @@
+﻿<Window x:Class="Capture.SettingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Capture設定" Height="289" Width="488" Icon="/Capture;component/icon_32.png">
+    <Grid>
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="84,26,0,0" Name="txtSave" VerticalAlignment="Top" Width="289" />
+        <Button Content="参照" Height="23" HorizontalAlignment="Left" Margin="379,26,0,0" Name="btnSelect" VerticalAlignment="Top" Width="75" Click="btnSelect_Click" />
+        <TextBlock Height="23" HorizontalAlignment="Left" Margin="32,29,0,0" Name="textBlock1" Text="保存先" VerticalAlignment="Top" Width="68" />
+        <TextBlock Height="23" HorizontalAlignment="Left" Margin="32,91,0,0" Name="textBlock2" Text="キャプチャ範囲" VerticalAlignment="Top" Width="119" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="126,123,0,0" Name="txtTop" VerticalAlignment="Top" Width="48" />
+        <TextBlock Height="23" HorizontalAlignment="Left" Margin="108,126,0,0" Name="textBlock3" Text="上" VerticalAlignment="Top" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="126,152,0,0" Name="txtBottom" VerticalAlignment="Top" Width="48" />
+        <TextBlock Height="23" HorizontalAlignment="Left" Margin="108,155,0,0" Name="textBlock4" Text="下" VerticalAlignment="Top" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="52,134,0,0" Name="txtLeft" VerticalAlignment="Top" Width="48" />
+        <TextBlock Height="23" HorizontalAlignment="Left" Margin="34,137,0,0" Name="textBlock5" Text="左" VerticalAlignment="Top" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="202,134,0,0" Name="txtRight" VerticalAlignment="Top" Width="48" />
+        <TextBlock Height="23" HorizontalAlignment="Left" Margin="184,137,0,0" Name="textBlock6" Text="右" VerticalAlignment="Top" />
+        <Button Content="OK" Height="23" HorizontalAlignment="Left" Margin="298,215,0,0" Name="btnOK" VerticalAlignment="Top" Width="75" Click="btnOK_Click" />
+        <Button Content="キャンセル" Height="23" HorizontalAlignment="Left" Margin="379,215,0,0" Name="btnCancel" VerticalAlignment="Top" Width="75" Click="btnCancel_Click" />
+    </Grid>
+</Window>
