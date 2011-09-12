@@ -40,3 +40,24 @@ C:\Users\sakai\Documents\Visual Studio 2010\Projects\Capture\Capture\obj\x86\Deb
 C:\Users\sakai\Documents\Visual Studio 2010\Projects\Capture\Capture\obj\x86\Debug\Capture.Properties.Resources.resources
 C:\Users\sakai\Documents\Visual Studio 2010\Projects\Capture\Capture\obj\x86\Debug\GenerateResource.read.1.tlog
 C:\Users\sakai\Documents\Visual Studio 2010\Projects\Capture\Capture\obj\x86\Debug\GenerateResource.write.1.tlog
+F:\Projects2\Capture\src\Capture\bin\Debug\Capture.exe.config
+F:\Projects2\Capture\src\Capture\obj\x86\Debug\Capture.exe
+F:\Projects2\Capture\src\Capture\obj\x86\Debug\Capture.pdb
+F:\Projects2\Capture\src\Capture\bin\Debug\icon.ico
+F:\Projects2\Capture\src\Capture\bin\Debug\Capture.exe
+F:\Projects2\Capture\src\Capture\bin\Debug\Capture.pdb
+F:\Projects2\Capture\src\Capture\obj\x86\Debug\ResolveAssemblyReference.cache
+F:\Projects2\Capture\src\Capture\obj\x86\Debug\CaptureListItem.baml
+F:\Projects2\Capture\src\Capture\obj\x86\Debug\SettingWindow.baml
+F:\Projects2\Capture\src\Capture\obj\x86\Debug\CaptureListItem.g.cs
+F:\Projects2\Capture\src\Capture\obj\x86\Debug\MainWindow.g.cs
+F:\Projects2\Capture\src\Capture\obj\x86\Debug\SettingWindow.g.cs
+F:\Projects2\Capture\src\Capture\obj\x86\Debug\App.g.cs
+F:\Projects2\Capture\src\Capture\obj\x86\Debug\GeneratedInternalTypeHelper.g.cs
+F:\Projects2\Capture\src\Capture\obj\x86\Debug\Capture_MarkupCompile.cache
+F:\Projects2\Capture\src\Capture\obj\x86\Debug\Capture_MarkupCompile.lref
+F:\Projects2\Capture\src\Capture\obj\x86\Debug\MainWindow.baml
+F:\Projects2\Capture\src\Capture\obj\x86\Debug\Capture.g.resources
+F:\Projects2\Capture\src\Capture\obj\x86\Debug\Capture.Properties.Resources.resources
+F:\Projects2\Capture\src\Capture\obj\x86\Debug\GenerateResource.read.1.tlog
+F:\Projects2\Capture\src\Capture\obj\x86\Debug\GenerateResource.write.1.tlog

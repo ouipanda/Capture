@@ -6,7 +6,7 @@
         <TextBox Height="23" HorizontalAlignment="Left" Margin="84,26,0,0" Name="txtSave" VerticalAlignment="Top" Width="289" />
         <Button Content="参照" Height="23" HorizontalAlignment="Left" Margin="379,26,0,0" Name="btnSelect" VerticalAlignment="Top" Width="75" Click="btnSelect_Click" />
         <TextBlock Height="23" HorizontalAlignment="Left" Margin="32,29,0,0" Name="textBlock1" Text="保存先" VerticalAlignment="Top" Width="68" />
-        <TextBlock Height="23" HorizontalAlignment="Left" Margin="32,91,0,0" Name="textBlock2" Text="キャプチャ範囲" VerticalAlignment="Top" Width="119" />
+        <TextBlock Height="23" HorizontalAlignment="Left" Margin="31,100,0,0" Name="textBlock2" Text="カーソル周辺キャプチャ範囲" VerticalAlignment="Top" Width="154" />
         <TextBox Height="23" HorizontalAlignment="Left" Margin="126,123,0,0" Name="txtTop" VerticalAlignment="Top" Width="48" />
         <TextBlock Height="23" HorizontalAlignment="Left" Margin="108,126,0,0" Name="textBlock3" Text="上" VerticalAlignment="Top" />
         <TextBox Height="23" HorizontalAlignment="Left" Margin="126,152,0,0" Name="txtBottom" VerticalAlignment="Top" Width="48" />
@@ -17,5 +17,9 @@
         <TextBlock Height="23" HorizontalAlignment="Left" Margin="184,137,0,0" Name="textBlock6" Text="右" VerticalAlignment="Top" />
         <Button Content="OK" Height="23" HorizontalAlignment="Left" Margin="298,215,0,0" Name="btnOK" VerticalAlignment="Top" Width="75" Click="btnOK_Click" />
         <Button Content="キャンセル" Height="23" HorizontalAlignment="Left" Margin="379,215,0,0" Name="btnCancel" VerticalAlignment="Top" Width="75" Click="btnCancel_Click" />
+        <TextBlock Height="23" HorizontalAlignment="Left" Margin="32,68,0,0" Name="textBlock7" Text="初期画像" VerticalAlignment="Top" Width="88" />
+        <RadioButton Content="ウィンドウ" Height="16" HorizontalAlignment="Left" Margin="108,67,0,0" Name="rbtImage1" VerticalAlignment="Top" IsChecked="True" GroupName="initialimage" />
+        <RadioButton Content="カーソル周辺" Height="16" HorizontalAlignment="Left" Margin="202,67,0,0" Name="rbtImage2" VerticalAlignment="Top" GroupName="initialimage" />
+        <CheckBox Content="常に前面表示" Height="16" HorizontalAlignment="Left" Margin="84,196,0,0" Name="chkTopmost" VerticalAlignment="Top" />
     </Grid>
 </Window>

@@ -133,6 +133,27 @@ namespace Capture
             }
         }
 
+        /// <summary>
+        /// 初期画像 0:ウィンドウ 1:カーソル
+        /// </summary>
+        public int InitialImage
+        {
+            get
+            {
+                return Properties.Settings.Default.initial_image;
+            }
+            set
+            {
+                Properties.Settings.Default.initial_image = value;
+            }
+        }
+
+        public bool Topmost
+        {
+            get { return Properties.Settings.Default.topmost; }
+            set { Properties.Settings.Default.topmost = value; }
+        }
+
         public string GetStartupPath()
         {
             return System.IO.Path.GetDirectoryName(Environment.GetCommandLineArgs()[0])+ "\\";

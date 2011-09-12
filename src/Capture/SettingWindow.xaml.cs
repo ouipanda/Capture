@@ -27,8 +27,11 @@ namespace Capture
             txtLeft.Text = setting.ClipSizeLeft.ToString();
             txtBottom.Text = setting.ClipSizeBottom.ToString();
             txtRight.Text = setting.ClipSizeRight.ToString();
+            rbtImage1.IsChecked = (setting.InitialImage == 0);
+            rbtImage2.IsChecked = (setting.InitialImage != 0);
 
             txtSave.Text = setting.SaveDirOrg;
+            chkTopmost.IsChecked = setting.Topmost;
         }
 
         private void btnSelect_Click(object sender, RoutedEventArgs e)
@@ -69,6 +72,13 @@ namespace Capture
                 setting.ClipSizeBottom = 1;
             if (setting.ClipSizeRight <= 0)
                 setting.ClipSizeRight = 1;
+
+            if (rbtImage1.IsChecked == true)
+                setting.InitialImage = 0;
+            else
+                setting.InitialImage = 1;
+
+            setting.Topmost = (chkTopmost.IsChecked == true);
 
             setting.SaveDir = txtSave.Text;
             setting.Save();

@@ -1,7 +1,7 @@
 ﻿<Window x:Class="Capture.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Capture" Height="400" Width="650" xmlns:my="clr-namespace:Capture" Icon="/Capture;component/icon_32.png">
+        Title="Capture" Height="400" Width="700" xmlns:my="clr-namespace:Capture" Icon="/Capture;component/icon_32.png">
     <Window.Resources>
         <ControlTemplate x:Key="captureItemTemplate" TargetType="{x:Type ListBoxItem}">
             <Grid>
@@ -61,6 +61,8 @@
                 <Button Content="記録停止" Height="23" HorizontalAlignment="Left" Name="btnStop" VerticalAlignment="Top" Width="75" Click="btnStop_Click" Margin="0,0,5,0" />
                 <Button Content="保存フォルダ" Height="23" HorizontalAlignment="Left" Name="btnReveal" VerticalAlignment="Top" Width="91" Click="btnReveal_Click" Margin="0,0,5,0" />
                 <Button Content="Excel出力" Height="23" HorizontalAlignment="Left" Name="btnExport" VerticalAlignment="Top" Width="75" Click="btnExport_Click" Margin="0,0,5,0" />
+
+                <Button Content="クリア" Height="23" HorizontalAlignment="Left" Name="btnClear" VerticalAlignment="Top" Width="75" Click="btnClear_Click"  Margin="15,0,5,0" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" DockPanel.Dock="Right" Margin="10,10,10,10">
                 <Button Content="終了" Height="23" HorizontalAlignment="Left" Name="btnExit" VerticalAlignment="Top" Width="75" Click="btnExit_Click" Margin="0,0,5,0" />
@@ -85,11 +87,14 @@
         </ListBox>
 
         <Grid DockPanel.Dock="Right" Name="grid1"
-              Width="300"
+              Width="340"
                 Height="280"
                 Margin="5,5,2,5"
               Background="#45000000">
-            <Image Margin="6,33,6,33" Name="image1"  />
+            <Image Margin="5,5,5,5" Stretch="Uniform" 
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Center"
+                   Name="image1" />
         </Grid>
 
     </DockPanel>

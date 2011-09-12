@@ -4,12 +4,12 @@
 winexe
 C#
 .cs
-F:\Projects2\Capture\Capture\obj\x86\Debug\
+F:\Projects2\Capture\src\Capture\obj\x86\Debug\
 Capture
 none
 false
 DEBUG;TRACE
-F:\Projects2\Capture\Capture\App.xaml
+F:\Projects2\Capture\src\Capture\App.xaml
 3667965360
 
 13-1369094611

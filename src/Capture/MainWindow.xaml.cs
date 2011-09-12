@@ -78,9 +78,11 @@ namespace Capture
                 this._windowHandle = _host.Handle;
 
                 // HotKeyを設定
-                SetupHotKey();
-                ComponentDispatcher.ThreadPreprocessMessage
-                    += ComponentDispatcher_ThreadPreprocessMessage;
+                //SetupHotKey();
+                ComponentDispatcher.ThreadPreprocessMessage += ComponentDispatcher_ThreadPreprocessMessage;
+
+                //前面表示
+                this.Topmost = setting.Topmost;
             }
             catch (Exception ex)
             {
@@ -124,12 +126,8 @@ namespace Capture
 
         void MainWindow_Closed(object sender, EventArgs e)
         {
-            // HotKeyの登録削除
-            UnregisterHotKey(this._windowHandle, HOTKEY_ID1);
             _notifyIcon.Visible = false;
         }
-
-
 
 
         private const int HOTKEY_ID1 = 0x0001;
@@ -145,11 +143,16 @@ namespace Capture
         // HotKeyの登録
         private void SetupHotKey()
         {
-            RegisterHotKey(this._windowHandle, HOTKEY_ID1, 0,
-               KeyInterop.VirtualKeyFromKey(Key.PrintScreen));
+            RegisterHotKey(this._windowHandle, HOTKEY_ID1, 0, KeyInterop.VirtualKeyFromKey(Key.PrintScreen));
         }
 
-        // HotKeyの動作を設定する
+        private void UnregisterHotKey()
+        {
+            // HotKeyの登録削除
+            UnregisterHotKey(this._windowHandle, HOTKEY_ID1);
+        }
+
+        // HotKeyの動作
         public void ComponentDispatcher_ThreadPreprocessMessage(
         ref MSG msg, ref bool handled)
         {
@@ -163,11 +166,10 @@ namespace Capture
 
                     lastCaptured = DateTime.Now;
                     System.Threading.Thread t = new System.Threading.Thread(new System.Threading.ParameterizedThreadStart(DoCapture));
-                    t.Start(null);
+                    t.Start(MouseMessage.NULL);
                 }
             }
         }
-
 
 
         /// <summary>
@@ -207,7 +209,7 @@ namespace Capture
 
         void DoCapture(object param)
         {
-            MouseMessage mouse = (MouseMessage)param;
+            MouseMessage mouse  = (MouseMessage)param;
             if (_captureList.Count > 100)
                 return; //ファイル数制限をつけておく
 
@@ -248,13 +250,26 @@ namespace Capture
                 }
 
                 //キャプチャ
-                Cpt(el_top, path_w);
-                Cpt(point, path_c, entry);
+                //Cpt(el_top, path_w);
+                Cpt(point, path_c, path_w, entry);
 
                 this.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
                 {
+                    //リストに追加
                     entry.No = _captureList.Count + 1;
+                    entry.SelectedIndex = setting.InitialImage;
                     _captureList.Add(entry);
+                    listView1.SelectedIndex = (_captureList.Count - 1);
+
+                    //スクロール位置と画像表示
+                    this.Dispatcher.Invoke(DispatcherPriority.Background, new Action(delegate
+                    {
+                        listView1.ScrollIntoView(entry);
+                        if (entry.SelectedIndex == 1)
+                            image1.Source = entry.ClipImage;
+                        else
+                            image1.Source = entry.WindowImage;
+                    }));
                 }));
             }
             catch (System.Windows.Automation.ElementNotAvailableException)
@@ -285,11 +300,12 @@ namespace Capture
                 System.Drawing.Bitmap bmp = CaptureHelper.CaptureWindow((IntPtr)el.Current.NativeWindowHandle);
                 bmp.Save(path, System.Drawing.Imaging.ImageFormat.Png);
             }
-
+            /*
             string name = el.Current.ControlType.LocalizedControlType;
             string type = el.Current.ItemType;
             string hnd = el.Current.NativeWindowHandle.ToString();
             string pid = el.Current.ProcessId.ToString();
+            */
         }
 
         /// <summary>
@@ -297,7 +313,7 @@ namespace Capture
         /// </summary>
         /// <param name="p"></param>
         /// <param name="path"></param>
-        void Cpt(Point p, string path, CaptureEntry entry)
+        void Cpt(Point p, string path_c, string path_w, CaptureEntry entry)
         {
             int top = setting.ClipSizeTop;
             int left = setting.ClipSizeLeft;
@@ -324,26 +340,62 @@ namespace Capture
             int adj_right = right + left_offset;
             int adj_bottom = bottom + top_offset;
             
-            //切り抜く
+            //マウス範囲を切り抜く
             System.Drawing.Rectangle rect = new System.Drawing.Rectangle((int)(p.X + adj_left), (int)(p.Y + adj_top), -adj_left + adj_right, -adj_top + adj_bottom);
-
             entry.ClipImageRect = new Rect((int)(p.X + adj_left), (int)(p.Y + adj_top), -adj_left + adj_right, -adj_top + adj_bottom);
-
             System.Drawing.Bitmap bmpNew = bmp.Clone(rect, bmp.PixelFormat);
-            bmpNew.Save(path, System.Drawing.Imaging.ImageFormat.Png);
+            bmpNew.Save(path_c, System.Drawing.Imaging.ImageFormat.Png);
+
+            /*
+            this.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
+            {
+                MessageBox.Show(entry.WindowRect.X.ToString() + " " +
+                    entry.WindowRect.Y.ToString() + " " +
+                    entry.WindowRect.Width.ToString() + " " +
+                    entry.WindowRect.Height.ToString() + " ");
+            }));
+            */
+
+            //ウィンドウを範囲を切り抜く
+            if (!entry.WindowRect.IsEmpty)
+            {
+                //領域座標を微調整する
+                int w_x = (int)entry.WindowRect.X;
+                int w_y = (int)entry.WindowRect.Y;
+                int w_width = (int)entry.WindowRect.Width;
+                int w_height = (int)entry.WindowRect.Height;
+                if (w_x < 0)
+                    w_x = 0;
+                if (w_y < 0)
+                    w_y = 0;
+
+                if (bmp.Width < (w_x + w_width))
+                    w_width = bmp.Width - w_x;
+
+                if (bmp.Height < (w_y + w_height))
+                    w_height = bmp.Height - w_y;
+
+                System.Drawing.Rectangle rect2 = new System.Drawing.Rectangle(w_x, w_y, w_width, w_height);
+                System.Drawing.Bitmap bmpNew2 = bmp.Clone(rect2, bmp.PixelFormat);
+                bmpNew2.Save(path_w, System.Drawing.Imaging.ImageFormat.Png);
+            }
         }
-               
 
         private void settingMenu_Click(object sender, RoutedEventArgs e)
         {
             if (w != null)
                 return;
+
+            btnStop_Click(null, null); //記録停止
+            this.Topmost = false;
+
             w = new SettingWindow();
             w.ShowDialog();
             if (w.DialogResult == true && _captureList != null)
             {
-                _captureList.Clear(); //設定を変えたので初期化
+                btnClear_Click(null, null);
             }
+            this.Topmost = setting.Topmost;
             w = null;
         }
 
@@ -378,6 +430,10 @@ namespace Capture
                     m = new MouseHook();
                     m.MouseHooked += new MouseHookedEventHandler(m_MouseHooked);
                 }
+
+                // HotKeyの登録
+                SetupHotKey();
+
                 this.btnStart.IsEnabled = false;
                 this.btnStop.IsEnabled = true;
             }
@@ -399,6 +455,11 @@ namespace Capture
                 m.Dispose();
                 m = null;
             }
+
+            // HotKeyの登録削除
+            UnregisterHotKey();
+
+
             this.btnStart.IsEnabled = true;
             this.btnStop.IsEnabled = false;
         }
@@ -466,7 +527,21 @@ namespace Capture
             }
         }
 
+        /// <summary>
+        /// クリアボタン
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnClear_Click(object sender, RoutedEventArgs e)
+        {
+            _captureList.Clear();
+        }
 
+        /// <summary>
+        /// 画像選択
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void listView1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             CaptureEntry entry = (CaptureEntry)listView1.SelectedItem;
@@ -488,7 +563,6 @@ namespace Capture
         {
             listView1_SelectionChanged(null, null);
         }
-
 
     }
 }

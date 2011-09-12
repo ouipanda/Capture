@@ -23,5 +23,11 @@
     <Setting Name="excel_template" Type="System.String" Scope="User">
       <Value Profile="(Default)">Template.xls</Value>
     </Setting>
+    <Setting Name="initial_image" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="topmost" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

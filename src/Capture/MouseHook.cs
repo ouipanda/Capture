@@ -58,6 +58,9 @@ namespace Capture
         XDown = 0x20B,
         ///<summary>Xボタンが解放された。</summary>
         XUp = 0x20C,
+
+        ///<summary>null</summary>
+        NULL = 0x000,
     }
     ///<summary>マウスの状態を表す。</summary>
     [StructLayout(LayoutKind.Explicit)]

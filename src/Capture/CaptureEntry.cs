@@ -44,6 +44,9 @@ namespace Capture
 
         System.Windows.Media.Imaging.BitmapImage MakeBmp(string path)
         {
+            if(!System.IO.File.Exists(path))
+                return null;
+
             System.IO.FileStream fs = new System.IO.FileStream(path, System.IO.FileMode.Open);
             byte[] abyData = new byte[fs.Length];
             fs.Read(abyData, 0, (int)fs.Length);
@@ -71,7 +74,10 @@ namespace Capture
                     return name2;
 
 
-                string mouse = "クリック";
+                string mouse = "";
+                if(MouseMessage == Capture.MouseMessage.LDown)
+                    mouse = "クリック";
+
                 if (MouseMessage == Capture.MouseMessage.RDown)
                     mouse = "右クリック";
 

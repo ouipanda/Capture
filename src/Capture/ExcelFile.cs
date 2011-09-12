@@ -166,7 +166,12 @@ MsgBox msoShapeRectangle 1
              */
         }
 
-        //h:138% w 132%
+        /// <summary>
+        /// Excel内の座標比率に直す。
+        /// だいたい1.33で割ると画像のピクセル数と同じくらいになった
+        /// </summary>
+        /// <param name="v"></param>
+        /// <returns></returns>
         double w(double v)
         {
             return (v / 1.33);
@@ -268,7 +273,7 @@ MsgBox msoShapeRectangle 1
             Parameters = new Object[] { "CaptureText1" };
             text_template = _shapes.GetType().InvokeMember("Item", BindingFlags.InvokeMethod, null, _shapes, Parameters);
 
-
+            string errors = "";
             int pict_left_margin = 10;
             int pict_top_margin = 40;
             int text_left_margin = 10;
@@ -277,40 +282,71 @@ MsgBox msoShapeRectangle 1
 
             foreach (var entry in list)
             {
-                string path = null;
-                
-                BitmapImage bi;
-                int shape_x = (int)(entry.ClickedRect.X - entry.WindowRect.X);
-                int shape_y = (int)(entry.ClickedRect.Y - entry.WindowRect.Y);
-                int width = (int)entry.ClickedRect.Width;
-                int height = (int)entry.ClickedRect.Height;
-                if (entry.SelectedIndex == 0)
+                try
                 {
-                    path = entry.PathToWindowImage;
-                    bi = entry.WindowImage;
-                }
-                else
-                {
-                    path = entry.PathToClipImage;
-                    bi = entry.ClipImage;
 
-                    shape_x = (int)(entry.ClickedRect.X - entry.ClipImageRect.X);
-                    shape_y = (int)(entry.ClickedRect.Y - entry.ClipImageRect.Y);
-                }
+                    string path = null;
                 
-                /*
-                string tmp = @"pict  {0} {1} {2} {3}
-shape {4} {5} {6} {7}";
-                tmp = string.Format(tmp, pict_left_margin, top, bi.PixelWidth, bi.PixelHeight,
-                    10 + shape_x, top + shape_y, width, height);
-                */
-                AddPicture(pict_left_margin, top, path, bi);
-                AddShape(10 + shape_x, top + shape_y, width, height);
+                    BitmapImage bi;
+                    int shape_x = (int)(entry.ClickedRect.X - entry.WindowRect.X);
+                    int shape_y = (int)(entry.ClickedRect.Y - entry.WindowRect.Y);
+                    int width = (int)entry.ClickedRect.Width;
+                    int height = (int)entry.ClickedRect.Height;
+                    if (entry.SelectedIndex == 0)
+                    {
+                        //ウィンドウ画像
+                        path = entry.PathToWindowImage;
+                        bi = entry.WindowImage;
 
-                //AddTextbox(text_left_margin, top + text_top_margin, 100, 100, tmp);
-                AddTextbox(text_left_margin, top + text_top_margin, 100, 100, entry.Caption);
+                        //クリップ領域より対象が大きい場合は調整する
+                        if (entry.WindowImage.Height < height + shape_y)
+                            height = (int)(entry.WindowImage.Height - shape_y);
+                        if (entry.WindowImage.Width < width + shape_x)
+                            width = (int)(entry.WindowImage.Width - shape_x);
+                    }
+                    else
+                    {
+                        //クリップ画像
+                        path = entry.PathToClipImage;
+                        bi = entry.ClipImage;
 
-                top += (int)(bi.PixelHeight + pict_top_margin);
+                        shape_x = (int)(entry.ClickedRect.X - entry.ClipImageRect.X);
+                        shape_y = (int)(entry.ClickedRect.Y - entry.ClipImageRect.Y);
+
+                        //クリップ領域より対象が大きい場合は調整する
+                        if (shape_x < 0)
+                            shape_x = 0;
+                        if (shape_y < 0)
+                            shape_y = 0;
+                        if (entry.ClipImage.Height < height + shape_y)
+                            height = (int)(entry.ClipImage.Height - shape_y);
+                        if (entry.ClipImage.Width < width + shape_x)
+                            width = (int)(entry.ClipImage.Width - shape_x);
+
+                    }
+                
+                    /*
+                    string tmp = @"pict  {0} {1} {2} {3}
+    shape {4} {5} {6} {7}";
+                    tmp = string.Format(tmp, pict_left_margin, top, bi.PixelWidth, bi.PixelHeight,
+                        10 + shape_x, top + shape_y, width, height);
+                    */
+
+                    AddPicture(pict_left_margin, top, path, bi);
+                    AddShape(pict_left_margin + shape_x, top + shape_y, width, height);
+
+                    //AddTextbox(text_left_margin, top + text_top_margin, 100, 100, tmp);
+                    AddTextbox(text_left_margin, top + text_top_margin, 100, 100, entry.Caption);
+
+                    top += (int)(bi.PixelHeight + pict_top_margin);
+
+                }
+                catch (Exception ex)
+                {
+                    errors += ex.Message + "\n" + ex.StackTrace + "\n";
+                }
+
+
             }
 
 
@@ -327,6 +363,10 @@ shape {4} {5} {6} {7}";
             //可視
             Parameters = new Object[] { true };
             _app.GetType().InvokeMember("Visible", BindingFlags.SetProperty, null, _app, Parameters);
+
+            if(!string.IsNullOrEmpty(errors))
+                throw new ApplicationException(errors);
+
         }
 
 
